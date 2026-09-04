@@ -37,11 +37,11 @@
             <div class="adm-cards" id="adm-cards">
                 <article class="adm-stat"><span>Total depositado (aprobado)</span><strong id="adm-total-dep">$0,00</strong></article>
                 <article class="adm-stat"><span>Total retirado (aprobado)</span><strong id="adm-total-ret">$0,00</strong></article>
-                <article class="adm-stat"><span>Total apostado (histórico)</span><strong id="adm-total-apostado">$0,00</strong></article>
                 <article class="adm-stat"><span>Jugadores registrados</span><strong id="adm-cant-jugadores">0</strong></article>
                 <article class="adm-stat"><span>Cajeros / operadores</span><strong id="adm-cant-operadores">0</strong></article>
                 <article class="adm-stat"><span>Solicitudes pendientes</span><strong id="adm-cant-pendientes">0</strong></article>
             </div>
+            <p id="adm-diag-solicitudes" class="adm-diag hidden"></p>
 
             <div class="acc-panel">
                 <h3>Cuentas</h3>
@@ -50,9 +50,9 @@
                 <div style="overflow-x:auto;">
                     <table class="adm-table" id="adm-tabla-cuentas">
                         <thead>
-                            <tr><th>Usuario</th><th>Rol actual</th><th>Saldo</th><th>Apostado</th><th>Nuevo rol</th><th></th></tr>
+                            <tr><th>Usuario</th><th>Rol actual</th><th>Saldo</th><th>Apostado</th><th>Nuevo rol</th><th></th><th></th></tr>
                         </thead>
-                        <tbody id="adm-cuentas-body"><tr><td colspan="6">Cargando...</td></tr></tbody>
+                        <tbody id="adm-cuentas-body"><tr><td colspan="7">Cargando...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -60,14 +60,6 @@
             <div class="acc-panel">
                 <h3>Movimientos recientes (todos los jugadores)</h3>
                 <div id="adm-tx-lista" class="acc-list">Cargando...</div>
-            </div>
-
-            <div class="prevencion-box">
-                <h4>Material de prevención</h4>
-                <div class="prevencion-media">
-                    <video src="anuncio1.mp4" controls preload="metadata"></video>
-                </div>
-                <p>Reforzá acá el mensaje de juego responsable para el equipo.</p>
             </div>
         </main>
     </div>
