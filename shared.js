@@ -58,11 +58,7 @@ async function cargarPerfilCompleto(userId) {
         .eq('id', userId)
         .single();
     if (!error) return data;
-    // No existe la fila en "perfiles" para este usuario (pasa si la cuenta se
-    // creó a mano desde el panel de Supabase, o si falló el alta al
-    // registrarse). La creamos ahora como jugador, para que la app no quede
-    // rota. Si ya le subiste el rol a operador con SQL, esto no lo pisa:
-    // solo se ejecuta cuando todavía NO hay fila para este id.
+
     const { data: authData } = await supabaseClient.auth.getUser();
     const user = authData && authData.user;
     if (!user || user.id !== userId) return null;
@@ -121,8 +117,6 @@ async function registrarTransaccion(userId, tipo, monto, saldoResultante, descri
     }
 }
 
-// Línea de ayuda por juego compulsivo (Programa de Prevención y Asistencia
-// al Juego Compulsivo, Provincia de Buenos Aires). Gratuita, 24hs.
 const LUDOPATIA_TEL = '0800-444-4000';
 
 function insertarBotonAyuda() {
@@ -135,10 +129,6 @@ function insertarBotonAyuda() {
     document.body.appendChild(a);
 }
 
-// Evita que una cuenta con rol operador/admin juegue como jugador, y
-// viceversa que un jugador entre a los paneles de gestión. Se llama apenas
-// se tiene el perfil cargado. Devuelve true si redirigió (y hay que cortar
-// la ejecución del resto de la página).
 function aplicarSeparacionDeRoles(perfil, paginaActual) {
     const rol = (perfil && perfil.rol) || 'jugador';
     if (paginaActual === 'jugador' && (rol === 'operador' || rol === 'admin')) {

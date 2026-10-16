@@ -1,7 +1,7 @@
 let admUserId = null;
 let admCuentasCache = [];
-let admMovPorUsuario = {}; // { userId: { depositado, retirado } }, solo solicitudes aprobadas
-let admDetalleAbierto = null; // id del jugador con el detalle desplegado, o null
+let admMovPorUsuario = {};
+let admDetalleAbierto = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('adm-login').addEventListener('click', loginAdmin);
@@ -54,8 +54,6 @@ async function cargarTodo() {
 let admSolicitudesCache = [];
 let admSolicitudesError = null;
 
-// Trae TODAS las solicitudes de carga/retiro una sola vez. De acá salen
-// tanto las tarjetas de arriba como el detalle por jugador.
 async function cargarSolicitudes() {
     const { data, error } = await supabaseClient.from('solicitudes_carga').select('*');
     admSolicitudesCache = data || [];
@@ -69,10 +67,6 @@ async function cargarSolicitudes() {
     armarMovPorUsuario();
 }
 
-// Si no llega nada (o da error), lo más probable es que falte una policy
-// de RLS en Supabase que deje al admin ver las solicitudes de TODOS los
-// jugadores (por defecto Supabase suele dejar que cada uno vea solo las
-// propias). Mostramos un aviso en vez de fallar en silencio.
 function mostrarDiagnosticoSolicitudes() {
     const el = document.getElementById('adm-diag-solicitudes');
     if (!el) return;
@@ -100,8 +94,6 @@ function esRetiro(s) {
     return tipo.includes('ret');
 }
 
-// Junta, por cada jugador, cuánto cargó y cuánto retiró (solo solicitudes
-// ya aprobadas). Se usa para el detalle de ganancia/pérdida por jugador.
 function armarMovPorUsuario() {
     admMovPorUsuario = {};
     admSolicitudesCache.forEach((s) => {
@@ -114,8 +106,6 @@ function armarMovPorUsuario() {
     });
 }
 
-// Duración en segundos -> "Xh Ym". Si no hay dato (columna no existe todavía
-// o el jugador nunca generó tiempo registrado), avisa que no está disponible.
 function formatDuracion(seg) {
     if (seg === null || seg === undefined || Number.isNaN(Number(seg))) return 'No disponible';
     const total = Math.max(0, Math.floor(Number(seg)));
@@ -214,7 +204,7 @@ function renderDetalleJugador(c) {
     const saldo = Number(c.saldo || 0);
     const neto = saldo + mov.retirado - mov.depositado;
     const netoEsGanancia = neto >= 0;
-    const estado = timeoutActivo(c); // helper de shared.js
+    const estado = timeoutActivo(c);
 
     let estadoTexto = 'Activo, sin restricciones';
     let estadoClase = 'adm-estado-ok';
